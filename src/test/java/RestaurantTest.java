@@ -3,11 +3,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class RestaurantTest {
+
     Restaurant restaurant;
+
     //REFACTOR ALL THE REPEATED LINES OF CODE
     @BeforeEach
     public void prepareTest() {
@@ -22,12 +29,10 @@ class RestaurantTest {
     //-------FOR THE 2 TESTS BELOW, YOU MAY USE THE CONCEPT OF MOCKING, IF YOU RUN INTO ANY TROUBLE
     @Test
     public void is_restaurant_open_should_return_true_if_time_is_between_opening_and_closing_time(){
-
         prepareTest();
         Restaurant mockRes = Mockito.spy(restaurant);
         Mockito.doReturn(true).when(mockRes).isRestaurantOpen();
         assertTrue(mockRes.isRestaurantOpen());
-        //WRITE UNIT TEST CASE HERE
     }
 
     @Test
@@ -36,10 +41,7 @@ class RestaurantTest {
         Restaurant mockRes = Mockito.spy(restaurant);
         Mockito.doReturn(false).when(mockRes).isRestaurantOpen();
         assertFalse(mockRes.isRestaurantOpen());
-        //WRITE UNIT TEST CASE HERE
-
     }
-
     //<<<<<<<<<<<<<<<<<<<<<<<<<OPEN/CLOSED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
@@ -65,4 +67,29 @@ class RestaurantTest {
                 ()->restaurant.removeFromMenu("French fries"));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>Order Cost<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    @Test
+    public void selecting_item_from_menu_should_increase_order_cost() throws itemNotFoundException {
+        prepareTest();
+        restaurant.addToMenu("Sizzling brownie",319);
+        List<String> chooseItems = new ArrayList<>();
+        chooseItems.add(restaurant.getMenu().get(0).getName());
+        chooseItems.add(restaurant.getMenu().get(2).getName());
+        assertEquals(438, restaurant.getOrderCost(chooseItems));
+    }
+
+    @Test
+    public void removing_item_from_selected_menu_should_decrease_order_cost() throws itemNotFoundException {
+        prepareTest();
+        restaurant.addToMenu("Sizzling brownie",319);
+        List<String> chooseItems = new ArrayList<>();
+        chooseItems.add(restaurant.getMenu().get(0).getName());
+        chooseItems.add(restaurant.getMenu().get(2).getName());
+        assertEquals(438, restaurant.getOrderCost(chooseItems));
+        chooseItems.remove(0);
+        assertEquals(319, restaurant.getOrderCost(chooseItems));
+    }
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>Order Cost<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }

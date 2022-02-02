@@ -10,8 +10,8 @@ class RestaurantServiceTest {
 
     RestaurantService service = new RestaurantService();
     Restaurant restaurant;
-    //REFACTOR ALL THE REPEATED LINES OF CODE
 
+    //REFACTOR ALL THE REPEATED LINES OF CODE
     @BeforeEach
     public void prepareTest() {
         LocalTime openingTime = LocalTime.parse("10:30:00");
@@ -20,6 +20,7 @@ class RestaurantServiceTest {
         restaurant.addToMenu("Sweet corn soup",119);
         restaurant.addToMenu("Vegetable lasagne", 269);
     }
+
 
     //>>>>>>>>>>>>>>>>>>>>>>SEARCHING<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     @Test
@@ -30,8 +31,6 @@ class RestaurantServiceTest {
         assertEquals( LocalTime.parse("22:00:00"), restaurant.closingTime);
         List<Item> menu = restaurant.getMenu();
         assertEquals(2, menu.size());
-
-        //WRITE UNIT TEST CASE HERE
     }
 
     //You may watch the video by Muthukumaran on how to write exceptions in Course 3: Testing and Version control: Optional content
@@ -40,8 +39,6 @@ class RestaurantServiceTest {
         prepareTest();
         assertEquals("Amelie's cafe", restaurant.getName());
         assertThrows(restaurantNotFoundException.class,()->service.findRestaurantByName("Pantry d'or"));
-
-        //WRITE UNIT TEST CASE HERE
     }
     //<<<<<<<<<<<<<<<<<<<<SEARCHING>>>>>>>>>>>>>>>>>>>>>>>>>>
 
